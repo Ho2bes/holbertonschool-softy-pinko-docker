@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  back-end:
+    build:
+      context: ./back-end
+      dockerfile: Dockerfile
+    ports:
+      - "5252"  # Port uniquement accessible en interne (pas de mappage externe)
+
+  front-end:
+    build:
+      context: ./front-end
+      dockerfile: Dockerfile
+    ports:
+      - "9000"  # Port uniquement accessible en interne (pas de mappage externe)
+
+  proxy:
+    build:
+      context: ./proxy
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"  # Mappe le port 80 du conteneur au port 80 de l'hôte
+    depends_on:
+      - front-end
+      - back-end
